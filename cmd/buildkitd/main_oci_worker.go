@@ -6,7 +6,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/containerd/stargz-snapshotter/snapshot/overlayutils"
+	//"github.com/containerd/stargz-snapshotter/snapshot/overlayutils"
 	"os"
 	"os/exec"
 	"strconv"
@@ -341,17 +341,19 @@ func snapshotterFactory(commonRoot string, cfg config.OCIConfig, sm *session.Man
 	}
 
 	if name == "auto" {
-		if err := overlayutils.Supported(commonRoot); err == nil {
-			name = "overlayfs"
-		} else {
-			logrus.Debugf("auto snapshotter: overlayfs is not available for %s, trying fuse-overlayfs: %v", commonRoot, err)
-			//if err2 := fuseoverlayfs.Supported(commonRoot); err2 == nil {
-			//	name = "fuse-overlayfs"
-			//} else {
-			logrus.Debugf("auto snapshotter: fuse-overlayfs is not available for %s, falling back to native: %v", commonRoot, fmt.Errorf("using wndows"))
-			name = "native"
-			//}
-		}
+		name = "native"
+		//
+		//if err := overlayutils.Supported(commonRoot); err == nil {
+		//	name = "overlayfs"
+		//} else {
+		//	logrus.Debugf("auto snapshotter: overlayfs is not available for %s, trying fuse-overlayfs: %v", commonRoot, err)
+		//	//if err2 := fuseoverlayfs.Supported(commonRoot); err2 == nil {
+		//	//	name = "fuse-overlayfs"
+		//	//} else {
+		//	logrus.Debugf("auto snapshotter: fuse-overlayfs is not available for %s, falling back to native: %v", commonRoot, fmt.Errorf("using wndows"))
+		//	name = "native"
+		//	//}
+		//}
 		logrus.Infof("auto snapshotter: using %s", name)
 	}
 
